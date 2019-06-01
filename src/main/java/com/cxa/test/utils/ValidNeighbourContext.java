@@ -8,7 +8,10 @@ public class ValidNeighbourContext {
     private int cell;
     private int size;
 
-    public ValidNeighbourContext(Direction direction, int cell, int size, int vertex) {
+    private ValidNeighbourContext() {
+    }
+
+    private ValidNeighbourContext(Direction direction, int cell, int size, int vertex) {
         this.direction = direction;
         this.cell = cell;
         this.size = size;

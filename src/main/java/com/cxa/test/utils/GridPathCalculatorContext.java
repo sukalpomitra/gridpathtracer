@@ -5,6 +5,9 @@ public class GridPathCalculatorContext {
     private String numberOfBlockedCells;
     private String blockedCellList;
 
+    private GridPathCalculatorContext() {
+    }
+
     private GridPathCalculatorContext(String size, String numberOfBlockedCells, String blockedCellList) {
         this.size = size;
         this.numberOfBlockedCells = numberOfBlockedCells;

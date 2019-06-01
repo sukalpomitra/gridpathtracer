@@ -13,7 +13,10 @@ public class DepthFirstSearchContext {
     private int cell;
     private Deque<String> path;
 
-    public DepthFirstSearchContext(List<Vertex> vertices, boolean[] visited, int cell, Deque<String> path) {
+    private DepthFirstSearchContext() {
+    }
+
+    private DepthFirstSearchContext(List<Vertex> vertices, boolean[] visited, int cell, Deque<String> path) {
         this.vertices = vertices;
         this.visited = visited;
         this.cell = cell;

@@ -9,6 +9,7 @@ import com.cxa.test.utils.Direction;
 import com.cxa.test.utils.GridPathCalculatorContext;
 import com.cxa.test.utils.ValidNeighbourContext;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -19,6 +20,9 @@ import static java.util.Optional.ofNullable;
 
 @Service
 public class GridPathCalculatorService {
+
+    @Value(value = "${diagonal:true}")
+    private boolean diagonal;
 
     public static final String INVALID_GRID_SIZE  = "Grid Size should be between 2 and 8";
     public static final String INVALID_NO_OF_BLOCKED_CELLS = "Number of blocked cells should be between 1 and twice " +
@@ -114,7 +118,7 @@ public class GridPathCalculatorService {
                 vertex = constructNewVertex(v, constructNeighbour(cell - size, v.getAdjacencyList()));
             }
             vertex = ofNullable(vertex).orElse(v);
-            if (validNeighbour(ValidNeighbourContext.newBuilder(context)
+            if (diagonal && validNeighbour(ValidNeighbourContext.newBuilder(context)
                     .setCell(cell - size + 1)
                     .setDirection(Direction.DRU)
                     .build())) {
@@ -126,7 +130,7 @@ public class GridPathCalculatorService {
                     .build())) {
                 vertex = constructNewVertex(vertex, constructNeighbour(cell + 1, vertex.getAdjacencyList()));
             }
-            if (validNeighbour(ValidNeighbourContext.newBuilder(context)
+            if (diagonal && validNeighbour(ValidNeighbourContext.newBuilder(context)
                     .setCell(cell + size + 1)
                     .setDirection(Direction.DRL)
                     .build())) {
@@ -138,7 +142,7 @@ public class GridPathCalculatorService {
                     .build())) {
                 vertex = constructNewVertex(vertex, constructNeighbour(cell + size, vertex.getAdjacencyList()));
             }
-            if (validNeighbour(ValidNeighbourContext.newBuilder(context)
+            if (diagonal && validNeighbour(ValidNeighbourContext.newBuilder(context)
                     .setCell(cell + size - 1)
                     .setDirection(Direction.DLD)
                     .build())) {
@@ -150,7 +154,7 @@ public class GridPathCalculatorService {
                     .build())) {
                 vertex = constructNewVertex(vertex, constructNeighbour(cell - 1, vertex.getAdjacencyList()));
             }
-            if (validNeighbour(ValidNeighbourContext.newBuilder(context)
+            if (diagonal && validNeighbour(ValidNeighbourContext.newBuilder(context)
                     .setCell(cell - size - 1)
                     .setDirection(Direction.DLU)
                     .build())) {

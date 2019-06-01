@@ -4,6 +4,9 @@ import com.cxa.test.exception.GridPathCalculatorInvalidArgumentException;
 import com.cxa.test.utils.GridPathCalculatorContext;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static junit.framework.TestCase.fail;
@@ -11,11 +14,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(SpringRunner.class)
+@TestPropertySource(locations= "classpath:test.properties")
+@SpringBootTest(classes = {GridPathCalculatorService.class})
 public class GridPathCalculatorServiceTest {
+
+    @Autowired
+    private GridPathCalculatorService gridPathCalculatorService;
 
     @Test
     public void testThreeByThreeDiagonalOpenPath() {
-        GridPathCalculatorService gridPathCalculatorService = new GridPathCalculatorService();
         try {
             assertThat(gridPathCalculatorService.calculateGridPath(GridPathCalculatorContext.newBuilder()
                     .setSize("3")
@@ -29,7 +36,6 @@ public class GridPathCalculatorServiceTest {
 
     @Test
     public void testThreeByThreeOnlyDiagonalOpenPath() {
-        GridPathCalculatorService gridPathCalculatorService = new GridPathCalculatorService();
         try {
             assertThat(gridPathCalculatorService.calculateGridPath(GridPathCalculatorContext.newBuilder()
                     .setSize("3")
@@ -43,7 +49,6 @@ public class GridPathCalculatorServiceTest {
 
     @Test
     public void testEightByEightPath() {
-        GridPathCalculatorService gridPathCalculatorService = new GridPathCalculatorService();
         try {
             assertThat(gridPathCalculatorService.calculateGridPath(GridPathCalculatorContext.newBuilder()
                     .setSize("8")

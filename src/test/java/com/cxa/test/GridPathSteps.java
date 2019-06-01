@@ -5,15 +5,24 @@ import com.cxa.test.service.GridPathCalculatorService;
 import com.cxa.test.utils.GridPathCalculatorContext;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 
 import static com.cxa.test.service.GridPathCalculatorService.*;
 import static junit.framework.TestCase.fail;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+@ContextConfiguration(classes = {GridPathCalculatorService.class})
 @SpringBootTest
+@TestPropertySource(locations= "classpath:test.properties")
 public class GridPathSteps {
+
+    @Autowired
+    private GridPathCalculatorService gridPathCalculatorService;
 
     @Given("^Invalid grid size is passed$")
     public void invalid_grid_size_is_passed() throws Throwable {
@@ -21,7 +30,6 @@ public class GridPathSteps {
 
     @Then("^we should get an invalid grid size exception message$")
     public void we_should_get_an_invalid_grid_size_exception_message() throws Throwable {
-        GridPathCalculatorService gridPathCalculatorService = new GridPathCalculatorService();
         try {
             gridPathCalculatorService.calculateGridPath(GridPathCalculatorContext.newBuilder().build());
             fail();
@@ -36,7 +44,6 @@ public class GridPathSteps {
 
     @Then("^we should get an invalid number of blocked cells exception message$")
     public void we_should_get_an_invalid_number_of_blocked_cells_exception_message() throws Throwable {
-        GridPathCalculatorService gridPathCalculatorService = new GridPathCalculatorService();
         try {
             gridPathCalculatorService.calculateGridPath(GridPathCalculatorContext.newBuilder()
                     .setSize("2")
@@ -54,7 +61,6 @@ public class GridPathSteps {
 
     @Then("^we should get invalid blocked cells exception message$")
     public void we_should_get_invalid_blocked_cells_exception_message() throws Throwable {
-        GridPathCalculatorService gridPathCalculatorService = new GridPathCalculatorService();
         try {
             gridPathCalculatorService.calculateGridPath(GridPathCalculatorContext.newBuilder()
                     .setSize("2")
@@ -73,7 +79,6 @@ public class GridPathSteps {
 
     @Then("^for a two by two grid we get a path$")
     public void for_a_two_by_two_grid_we_get_a_path() throws Throwable {
-        GridPathCalculatorService gridPathCalculatorService = new GridPathCalculatorService();
         try {
             assertThat(gridPathCalculatorService.calculateGridPath(GridPathCalculatorContext.newBuilder()
                     .setSize("2")
@@ -91,7 +96,6 @@ public class GridPathSteps {
 
     @Then("^for a two by two grid we get one to four path available$")
     public void for_a_two_by_two_grid_we_get_one_to_four_path_available() throws Throwable {
-        GridPathCalculatorService gridPathCalculatorService = new GridPathCalculatorService();
         try {
             assertThat(gridPathCalculatorService.calculateGridPath(GridPathCalculatorContext.newBuilder()
                     .setSize("2")
@@ -109,7 +113,6 @@ public class GridPathSteps {
 
     @Then("^for a three by three grid we get no path available$")
     public void for_a_three_by_three_grid_we_get_no_path_available() throws Throwable {
-        GridPathCalculatorService gridPathCalculatorService = new GridPathCalculatorService();
         try {
             assertThat(gridPathCalculatorService.calculateGridPath(GridPathCalculatorContext.newBuilder()
                     .setSize("3")
