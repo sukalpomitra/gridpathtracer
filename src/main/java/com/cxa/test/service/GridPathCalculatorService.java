@@ -4,6 +4,7 @@ import com.cxa.test.exception.GridPathCalculatorInvalidArgumentException;
 import com.cxa.test.model.Graph;
 import com.cxa.test.model.Neighbour;
 import com.cxa.test.model.Vertex;
+import com.cxa.test.utils.DepthFirstSearchContext;
 import com.cxa.test.utils.Direction;
 import com.cxa.test.utils.GridPathCalculatorContext;
 import com.cxa.test.utils.ValidNeighbourContext;
@@ -33,7 +34,12 @@ public class GridPathCalculatorService {
         Graph graph = constructGraph(context);
         List<Vertex> vertices = graph.getVertices();
         boolean[] visited = new boolean[(size * size) + 1];
-        Deque path = depthFirstSearch(vertices, visited, 1, new LinkedList<>());
+        Deque path = depthFirstSearch(DepthFirstSearchContext.newBuilder()
+                .setCell(1)
+                .setVertices(vertices)
+                .setVisited(visited)
+                .setPath(new LinkedList<>())
+                .build());
         StringBuilder pathTraced = new StringBuilder();
         if (!pathReached(visited, path)) {
             pathTraced.append("No Path Available");
@@ -44,8 +50,11 @@ public class GridPathCalculatorService {
         return pathTraced.toString();
     }
 
-    private Deque<String> depthFirstSearch(final List<Vertex> vertices, final boolean[] visited, final int cell,
-                                           final Deque<String> path) {
+    private Deque<String> depthFirstSearch(final DepthFirstSearchContext context) {
+        int cell = context.getCell();
+        boolean[] visited = context.getVisited();
+        Deque<String> path = context.getPath();
+        List<Vertex> vertices = context.getVertices();
         visited[cell] = true;
         path.push(cell + "");
         if (cell == visited.length - 1) {
@@ -59,7 +68,9 @@ public class GridPathCalculatorService {
                 .getNext()) {
             int cellNum = neighbour.getCell();
             if (!visited[cellNum]) {
-                depthFirstSearch(vertices, visited, cellNum, path);
+                depthFirstSearch(DepthFirstSearchContext.newBuilder(context)
+                        .setCell(cellNum)
+                        .build());
                 if (pathReached(visited, path)) {
                     break;
                 }
