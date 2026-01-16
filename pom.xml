@@ -16,7 +16,7 @@
 
     <properties>
         <cucumber>1.2.5</cucumber>
-        <commons-lang3>3.8.1</commons-lang3>
+        <commons-lang3>3.18.0</commons-lang3>
     </properties>
 
     <dependencies>
